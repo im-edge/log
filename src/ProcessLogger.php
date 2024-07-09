@@ -12,11 +12,13 @@ use IMEdge\systemd\systemd;
 
 class ProcessLogger
 {
-    public static function create(string $identifier, GetOpt $options): Logger
+    public static function create(string $identifier, ?GetOpt $options = null): Logger
     {
         $logger = new Logger();
         self::applyWriter($logger, $identifier);
-        self::applyLogFilters($logger, $options);
+        if ($options) {
+            self::applyLogFilters($logger, $options);
+        }
 
         return $logger;
     }
