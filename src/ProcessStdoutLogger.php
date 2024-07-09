@@ -4,32 +4,18 @@ namespace IMEdge\Log;
 
 use Amp\ByteStream\WritableResourceStream;
 use GetOpt\GetOpt;
-use gipfl\Log\Filter\LogLevelFilter;
 use gipfl\Log\Logger;
+use gipfl\Log\PrefixLogger;
 
-class ProcessStdoutLogger
+// Hint: avoid systemd/journald logging. Might be removed / improved
+class ProcessStdoutLogger extends ProcessLogger
 {
-    public static function createForOptions(GetOpt $options): Logger
-    {
-        $logger = new Logger();
-        self::applyLogFilters($logger, $options);
-
-        return $logger;
-    }
-
-    public static function detectAndApplyLogWriter(Logger $logger): void
-    {
+    public static function detectAndApplyLogWriter(
+        Logger &$logger,
+        ?string $identifier = null,
+        ?GetOpt $options = null
+    ): void {
         $logger->addWriter(new AmpStreamWriter(new WritableResourceStream(STDERR)));
-    }
-
-    protected static function applyLogFilters(Logger $logger, GetOpt $options)
-    {
-        if (! $options->getOption('debug')) {
-            if ($options->getOption('verbose')) {
-                $logger->addFilter(new LogLevelFilter('info'));
-            } else {
-                $logger->addFilter(new LogLevelFilter('notice'));
-            }
-        }
+        $logger = new PrefixLogger($identifier . ': ', $logger);
     }
 }
