@@ -12,20 +12,18 @@ use IMEdge\systemd\systemd;
 
 class ProcessLogger
 {
-    public static function createForOptions(GetOpt $options): Logger
+    public static function create(string $identifier, GetOpt $options): Logger
     {
         $logger = new Logger();
+        self::applyWriter($logger, $identifier);
         self::applyLogFilters($logger, $options);
 
         return $logger;
     }
 
-    public static function detectAndApplyLogWriter(
-        Logger &$logger,
-        ?string $identifier = null,
-        ?GetOpt $options = null
-    ): void {
-        // TODO: JsonRpcConnectionWriter if instanceof RpcCommandInterface?
+    protected static function applyWriter(Logger &$logger, string $identifier): void
+    {
+        // TODO: JsonRpcConnectionWriter if $options->getCommand() instanceof RpcCommandInterface?
         if (systemd::startedThisProcess()) {
             if (@file_exists(JournaldLogger::JOURNALD_SOCKET)) {
                 $logger->addWriter((new JournaldLogger())->setIdentifier($identifier));
@@ -35,9 +33,6 @@ class ProcessLogger
             }
         } else {
             $logger->addWriter(new AmpStreamWriter(new WritableResourceStream(STDERR)));
-        }
-        if ($options) {
-            self::applyLogFilters($logger, $options);
         }
     }
 
