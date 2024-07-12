@@ -26,8 +26,8 @@
         "php": ">=8.1",
         "amphp/byte-stream": "^2.1",
         "gipfl/log": ">=0.7",
-        "imedge/cli-screen": "^0.1.0",
-        "imedge/systemd": "^0.1.0"
+        "imedge/cli-screen": ">=0.2",
+        "imedge/systemd": ">=0.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
