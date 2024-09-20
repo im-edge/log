@@ -4,8 +4,7 @@ namespace IMEdge\Log\Writer;
 
 use Amp\ByteStream\WritableResourceStream;
 use Amp\ByteStream\WritableStream;
-use gipfl\Log\LogLevel;
-use gipfl\Log\LogWriter;
+use IMEdge\Log\LogLevel;
 use InvalidArgumentException;
 
 use function sprintf;
@@ -30,7 +29,7 @@ class SystemdStdoutWriter implements LogWriter
         $this->facility = $facility;
     }
 
-    public function write($level, $message): void
+    public function write(string $level, string $message, array $context = []): void
     {
         $this->stdOut->write(sprintf(
             "<%d>%s\n",

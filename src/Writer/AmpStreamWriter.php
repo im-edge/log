@@ -3,7 +3,6 @@
 namespace IMEdge\Log\Writer;
 
 use Amp\ByteStream\WritableResourceStream;
-use gipfl\Log\LogWriter;
 use IMEdge\CliScreen\AnsiScreen;
 
 class AmpStreamWriter implements LogWriter
@@ -71,7 +70,7 @@ class AmpStreamWriter implements LogWriter
         $this->separator = $separator;
     }
 
-    public function write($level, $message): void
+    public function write(string $level, string $message, array $context = []): void
     {
         if ($this->screen) {
             $levelString = $level;
@@ -81,6 +80,9 @@ class AmpStreamWriter implements LogWriter
                 $levelString = self::ICONS[$level] . ' ' . $levelString;
             } else {
                 $levelString = $this->screen->colorize($levelString, self::COLORS[$level]);
+            }
+            if (!empty($context)) {
+                $message = sprintf($message, ...$context);
             }
             $this->stream->write(
                 $levelString . ": $message" . $this->separator

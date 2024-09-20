@@ -4,11 +4,9 @@ namespace IMEdge\Log;
 
 use Amp\ByteStream\WritableResourceStream;
 use GetOpt\GetOpt;
-use gipfl\Log\Filter\LogLevelFilter;
-use gipfl\Log\Logger;
-use gipfl\Log\PrefixLogger;
-use gipfl\Log\Writer\JournaldLogger;
+use IMEdge\Log\Filter\LogLevelFilter;
 use IMEdge\Log\Writer\AmpStreamWriter;
+use IMEdge\Log\Writer\JournaldLogger;
 use IMEdge\Log\Writer\SystemdStdoutWriter;
 use IMEdge\systemd\systemd;
 
@@ -30,7 +28,9 @@ class ProcessLogger
         // TODO: JsonRpcConnectionWriter if $options->getCommand() instanceof RpcCommandInterface?
         if (systemd::startedThisProcess()) {
             if (@file_exists(JournaldLogger::JOURNALD_SOCKET)) {
-                $logger->addWriter((new JournaldLogger())->setIdentifier($identifier));
+                $writer = new JournaldLogger();
+                $writer->setIdentifier($identifier);
+                $logger->addWriter($writer);
             } else {
                 $logger->addWriter(new SystemdStdoutWriter());
                 $logger = new PrefixLogger($identifier, $logger);

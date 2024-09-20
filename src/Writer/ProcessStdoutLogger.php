@@ -3,8 +3,8 @@
 namespace IMEdge\Log\Writer;
 
 use Amp\ByteStream\WritableResourceStream;
-use gipfl\Log\Logger;
-use gipfl\Log\PrefixLogger;
+use IMEdge\Log\Logger;
+use IMEdge\Log\PrefixLogger;
 use IMEdge\Log\ProcessLogger;
 
 // Hint: avoid systemd/journald logging. Might be removed / improved
