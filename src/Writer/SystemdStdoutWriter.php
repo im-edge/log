@@ -1,6 +1,6 @@
 <?php
 
-namespace IMEdge\Log;
+namespace IMEdge\Log\Writer;
 
 use Amp\ByteStream\WritableResourceStream;
 use Amp\ByteStream\WritableStream;

@@ -8,6 +8,8 @@ use gipfl\Log\Filter\LogLevelFilter;
 use gipfl\Log\Logger;
 use gipfl\Log\PrefixLogger;
 use gipfl\Log\Writer\JournaldLogger;
+use IMEdge\Log\Writer\AmpStreamWriter;
+use IMEdge\Log\Writer\SystemdStdoutWriter;
 use IMEdge\systemd\systemd;
 
 class ProcessLogger

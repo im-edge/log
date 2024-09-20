@@ -1,10 +1,11 @@
 <?php
 
-namespace IMEdge\Log;
+namespace IMEdge\Log\Writer;
 
 use Amp\ByteStream\WritableResourceStream;
 use gipfl\Log\Logger;
 use gipfl\Log\PrefixLogger;
+use IMEdge\Log\ProcessLogger;
 
 // Hint: avoid systemd/journald logging. Might be removed / improved
 class ProcessStdoutLogger extends ProcessLogger
